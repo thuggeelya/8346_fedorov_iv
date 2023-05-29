@@ -1,0 +1,30 @@
+version: "3"
+services:
+  app:
+    ports:
+      - "127.0.0.1:5000:5000"
+      - "127.0.0.1:5022:22"
+    build:
+      context: ./app
+      dockerfile: Dockerfile_app
+    deploy:
+      resources:
+        limits:
+          pids: 18
+    networks:
+      default:
+        aliases:
+          - 8346_fedorov_iv-app-1
+  tester:
+    env_file:
+      - ./test/.env
+    ports:
+      - "127.0.0.1:5023:22"
+    build:
+      context: ./test
+      dockerfile: Dockerfile_tester
+    networks:
+      default:
+        aliases:
+          - 8346_fedorov_iv-tester-1
+
